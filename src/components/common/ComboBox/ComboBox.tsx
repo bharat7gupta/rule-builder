@@ -17,6 +17,18 @@ export default function ComboBox({ options, values, onChange }: ComboBoxProps) {
     useClickInside(comboBoxRef, () => setOpen(true));
     useClickOutside(comboBoxRef, () => setOpen(false));
 
+    const isOptionSelected = (option: string) => {
+        return values.includes(option);
+    };
+
+    const handleOptionClick = (option: string) => {
+        if (isOptionSelected(option)) {
+            onChange(values.filter((value) => value !== option));
+        } else {
+            onChange([...values, option]);
+        }
+    };
+
     return (
         <div className="combobox" ref={comboBoxRef}>
             <input className="combobox-input" type="text" />
@@ -26,10 +38,14 @@ export default function ComboBox({ options, values, onChange }: ComboBoxProps) {
             {open ? (
                 <div className="combobox-options">
                     {options.map((option) => (
-                        <div key={option} className="combobox-option">
+                        <div
+                            key={option}
+                            className={`combobox-option ${isOptionSelected(option) ? 'selected' : ''}`}
+                            onClick={() => handleOptionClick(option)}
+                        >
                             <input
                                 type="checkbox"
-                                checked={values.includes(option)}
+                                checked={isOptionSelected(option)}
                                 onChange={(event) => {
                                     if (event.target.checked) {
                                         onChange([...values, option]);
@@ -38,7 +54,7 @@ export default function ComboBox({ options, values, onChange }: ComboBoxProps) {
                                     }
                                 }}
                             />
-                            <span>{option}</span>
+                            <span className="combobox-option-value">{option}</span>
                         </div>
                     ))}
                 </div>

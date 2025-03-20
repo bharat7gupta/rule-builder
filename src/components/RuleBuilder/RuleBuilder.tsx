@@ -17,7 +17,9 @@ export default function RuleBuilder({ availableRules }: RuleBuilderProps) {
         onAddClick,
         onRuleChange,
         onRuleDelete,
-        onOperatorChange
+        onOperatorChange,
+        onRuleValueRemove,
+        onRuleValueChange
     } = useRuleBuilder(availableRules);
 
     const contextValue: RuleBuilderContextType = useMemo(() => ({
@@ -40,6 +42,8 @@ export default function RuleBuilder({ availableRules }: RuleBuilderProps) {
                             onRuleChange={(ruleId: RuleID) => onRuleChange(index, ruleId)}
                             onRuleDelete={() => onRuleDelete(index)}
                             onOperatorChange={(operatorType: RuleOperatorType) => onOperatorChange(index, operatorType)}
+                            onRuleValueChange={(values: string[]) => onRuleValueChange(index, values)}
+                            onRuleValueRemove={(text: string) => onRuleValueRemove(index, text)}
                         />
                     ))}
                 </div>

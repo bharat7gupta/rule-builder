@@ -39,10 +39,34 @@ export default function useRuleBuilder(availableRules: Rule[]) {
         );
     }
 
+    const onRuleValueChange = (index: number, values: string[]) => {
+        setAddedRules(
+            addedRules.map(
+                (rule, i) => i === index
+                        ? { ...rule, values }
+                        : rule
+            )
+        );
+    };
+
+    const onRuleValueRemove = (index: number, text: string) => {
+        const currentRule = addedRules[index];
+        const newValues = currentRule.values.filter(value => value !== text);
+
+        setAddedRules(
+            addedRules.map(
+                (rule, i) => i === index
+                        ? { ...rule, values: newValues }
+                        : rule
+            )
+        );
+    };
+
     const getSuitableRule = () => {
         return {
             ...availableRules[0],
-            operator: availableRules[0].operators[0]
+            operator: availableRules[0].operators[0],
+            values: []
         };
     };
 
@@ -51,6 +75,8 @@ export default function useRuleBuilder(availableRules: Rule[]) {
         onAddClick,
         onRuleChange,
         onRuleDelete,
-        onOperatorChange
+        onOperatorChange,
+        onRuleValueChange,
+        onRuleValueRemove
     };
 }

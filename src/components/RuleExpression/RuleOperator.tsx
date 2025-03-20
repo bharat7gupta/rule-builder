@@ -18,9 +18,9 @@ export default function RuleOperator({ rule, operatorType, onOperatorChange, onI
 
     switch (operatorType) {
         case RuleOperatorType.YES_NO:
-            return <YesNoDropdown value={rule.values?.[0] ?? 'yes'} onChange={handleOperatorChange} />;
+            return <YesNoDropdown value={rule.options?.[0] ?? 'yes'} onChange={handleOperatorChange} />;
         case RuleOperatorType.INPUT:
-            return <TextBox value={rule.values?.[0] ?? ''} onChange={onInputChange} />;
+            return <TextBox value={rule.options?.[0] ?? ''} onChange={onInputChange} />;
         default:
             return (
                 <Dropdown onChange={handleOperatorChange}>

@@ -1,0 +1,29 @@
+.badge {
+    display: flex;
+    font-size: 12px;
+    background-color: #E3E3E3;
+    color: #303030;
+    border-radius: 16px;
+    padding: 4px 8px;
+    max-width: 320px;
+}
+
+.badge-text {
+    max-width: 300px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.badge-close {
+    margin-left: 8px;
+    cursor: pointer;
+    color: #4A4A4A;
+    font-size: 20px;
+    line-height: 12px;
+}
+
+.badge-group {
+    display: flex;
+    gap: 8px;
+}

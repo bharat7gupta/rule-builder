@@ -4,11 +4,12 @@ export interface Rule {
     ruleName: string;
     ruleGroup: RuleGroup;
     operators: Operator[];
-    values: string[];
+    options: string[];
 }
 
-export type SelectedRule = Omit<Rule, 'operators' | 'ruleGroup'> & {
+export type SelectedRule = Pick<Rule, 'ruleId' | 'ruleName'> & {
     operator: Operator;
+    values: string[];
 };
 
 export interface Operator {

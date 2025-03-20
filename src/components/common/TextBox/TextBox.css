@@ -5,7 +5,7 @@
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    padding: 8px 35px 8px 12px;
+    padding: 8px;
     border: 1px solid #ddd;
     border-radius: 6px;
     background-color: white;
@@ -13,4 +13,5 @@
     color: #333;
     cursor: pointer;
     outline: none;
+    box-sizing: border-box;
 }

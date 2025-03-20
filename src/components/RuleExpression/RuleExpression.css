@@ -1,13 +1,19 @@
 .rule-item {
     display: flex;
-    align-items: flex-start;
     gap: 8px;
+    flex-direction: column;
     position: relative;
     margin-left: 64px;
     padding-right: 32px;
 }
 
-.rule-item > * {
+.rule-item-fields {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.rule-item-fields > * {
     flex: 1;
 }
 

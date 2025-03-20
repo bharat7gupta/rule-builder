@@ -1,17 +1,20 @@
 import './TextBox.css';
 
 interface TextBoxProps {
+    type?: HTMLInputElement['type'];
     value: string;
     onChange: (value: string) => void;
 }
 
-export default function TextBox({ value, onChange }: TextBoxProps) {
+export default function TextBox({ type = 'text', value, onChange }: TextBoxProps) {
     return (
-        <input
-            type="text"
-            value={value}
-            onChange={(event) => onChange(event?.target.value)}
-            className="custom-textbox"
-        />
+        <div>
+            <input
+                type={type}
+                value={value}
+                onChange={(event) => onChange(event?.target.value)}
+                className="custom-textbox"
+            />
+        </div>
     );
 }

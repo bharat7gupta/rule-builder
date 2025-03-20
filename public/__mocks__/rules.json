@@ -15,7 +15,7 @@
                     "operatorText": "is not"
                 }
             ],
-            "values": [
+            "options": [
                 "value1",
                 "value2"
             ]
@@ -35,7 +35,7 @@
                     "operatorText": "is not"
                 }
             ],
-            "values": [
+            "options": [
                 "value1",
                 "value2"
             ]
@@ -59,7 +59,7 @@
                     "operatorText": "is not"
                 }
             ],
-            "values": [
+            "options": [
                 "value1",
                 "value2"
             ]

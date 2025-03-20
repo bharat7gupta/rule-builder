@@ -5,36 +5,50 @@ import './RuleExpression.css';
 import RuleOperator from "./RuleOperator";
 import RuleSelector from "./RuleSelector";
 import RuleValue from "./RuleValue";
+import BadgeGroup from "../common/Badge/BadgeGroup";
 
 interface RuleExpressionProps {
     rule: SelectedRule;
     onRuleDelete: () => void;
     onRuleChange: (ruleId: RuleID) => void;
     onOperatorChange: (operatorType: RuleOperatorType) => void;
+    onRuleValueChange: (values: string[]) => void;
+    onRuleValueRemove: (text: string) => void;
 }
 
-export default function RuleExpression({ rule, onRuleDelete, onRuleChange, onOperatorChange }: RuleExpressionProps) {
+export default function RuleExpression({
+    rule, 
+    onRuleDelete,
+    onRuleChange,
+    onOperatorChange,
+    onRuleValueChange,
+    onRuleValueRemove
+}: RuleExpressionProps) {
     const { availableRules } = useContext(RuleBuilderContext);
     const ruleDetail = availableRules.find(availableRule => availableRule.ruleId === rule.ruleId);
     const operatorType = rule.operator.operatorType ?? ruleDetail?.operators[0].operatorType;
 
     return (
         <div className="rule-item">
-            <RuleSelector onRuleChange={onRuleChange} />
+            <div className="rule-item-fields">
+                <RuleSelector onRuleChange={onRuleChange} />
 
-            <RuleOperator
-                rule={ruleDetail!}
-                operatorType={operatorType}
-                onOperatorChange={onOperatorChange}
-                onInputChange={() => {}}
-            />
+                <RuleOperator
+                    rule={ruleDetail!}
+                    operatorType={operatorType}
+                    onOperatorChange={onOperatorChange}
+                    onInputChange={() => {}}
+                />
 
-            <RuleValue
-                operator={rule.operator.operatorType}
-                options={ruleDetail?.values ?? []}
-                values={rule.values}
-                onChange={() => {}}
-            />
+                <RuleValue
+                    operator={rule.operator.operatorType}
+                    options={ruleDetail?.options}
+                    values={rule.values}
+                    onChange={onRuleValueChange}
+                />
+            </div>
+
+            <BadgeGroup items={rule.values} canRemove={true} onRemove={onRuleValueRemove} />
 
             <div className="connector"></div>
             <div className="connector-label">AND</div>
