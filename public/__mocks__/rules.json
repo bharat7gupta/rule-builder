@@ -1,0 +1,110 @@
+{
+    "rules": [
+        {
+            "order": 1,
+            "ruleId": "SPECIFIC_COLLECTION",
+            "ruleName": "Specific Collection",
+            "ruleGroup": "Product based",
+            "operators": [
+                {
+                    "operatorType": "CONTAINS_ANY",
+                    "operatorText": "contains any"
+                },
+                {
+                    "operatorType": "IS_NOT",
+                    "operatorText": "is not"
+                }
+            ],
+            "values": [
+                "value1",
+                "value2"
+            ]
+        },
+        {
+            "order": 2,
+            "ruleId": "PRODUCT_TAGS",
+            "ruleName": "Product Tags",
+            "ruleGroup": "Product based",
+            "operators": [
+                {
+                    "operatorType": "CONTAINS_ANY",
+                    "operatorText": "contains any"
+                },
+                {
+                    "operatorType": "IS_NOT",
+                    "operatorText": "is not"
+                }
+            ],
+            "values": [
+                "value1",
+                "value2"
+            ]
+        },
+        {
+            "order": 3,
+            "ruleId": "SPECIFIC_PRODUCT",
+            "ruleName": "Specific Product",
+            "ruleGroup": "Product based",
+            "operators": [
+                {
+                    "operatorType": "EQUALS_ANYTHING",
+                    "operatorText": "equals anything"
+                },
+                {
+                    "operatorType": "CONTAINS_ANY",
+                    "operatorText": "contains any"
+                },
+                {
+                    "operatorType": "IS_NOT",
+                    "operatorText": "is not"
+                }
+            ],
+            "values": [
+                "value1",
+                "value2"
+            ]
+        },
+        {
+            "order": 4,
+            "ruleId": "PRODUCT_SUBSCRIBED",
+            "ruleName": "Product Subscribed",
+            "ruleGroup": "Product based",
+            "operators": [
+                {
+                    "operatorType": "YES_NO"
+                }
+            ]
+        },
+        {
+            "order": 5,
+            "ruleId": "DISCOUNT_CODE",
+            "ruleName": "Specific Discount Codes",
+            "ruleGroup": "Discount code",
+            "operators": [
+                {
+                    "operatorType": "INPUT"
+                }
+            ]
+        },
+        {
+            "order": 6,
+            "ruleId": "CART_TOTAL",
+            "ruleName": "Cart Value Range",
+            "ruleGroup": "Cart based",
+            "operators": [
+                {
+                    "operatorType": "EQUAL_OR_GREATER_THAN",
+                    "operatorText": "equal or greater than"
+                },
+                {
+                    "operatorType": "BETWEEN",
+                    "operatorText": "between"
+                },
+                {
+                    "operatorType": "LESS_THAN",
+                    "operatorText": "less than"
+                }
+            ]
+        }
+    ]
+}

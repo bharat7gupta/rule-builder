@@ -1,0 +1,48 @@
+.rule-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    position: relative;
+    margin-left: 64px;
+    padding-right: 32px;
+}
+
+.rule-item > * {
+    flex: 1;
+}
+
+.connector {
+    position: absolute;
+    top: 50%;
+    left: -44px;
+    height: calc(100% + 24px);
+    width: 44px;
+    border-left: 2px solid #ccc;
+    border-top: 2px solid #ccc;
+    bottom: -5px;
+}
+
+.rule-item:last-child .connector {
+    border: none;
+    border-top: 2px solid #ccc;
+}
+
+.connector-label {
+    position: absolute;
+    left: -62px;
+    top: 50%;
+    background-color: #FFFFFF;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #555;
+    padding: 4px;
+}
+
+.delete-button {
+    position: absolute;
+    right: 12px;
+    cursor: pointer;
+    color: #4A4A4A;
+    transform: scale(1.5);
+    margin-left: 4px;
+}

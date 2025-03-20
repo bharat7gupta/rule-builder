@@ -1,0 +1,22 @@
+.card {
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    border: 1px solid #E0E0E0;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 16px;
+    box-shadow: 0px 1px 0px 0px #1A1A1A12,
+                0px 1px 0px 0px #CCCCCC80 inset,
+                0px -1px 0px 0px #0000002B inset,
+                -1px 0px 0px 0px #00000021 inset,
+                1px 0px 0px 0px #00000021 inset;
+}
+
+.card-header {
+    margin-bottom: 8px;
+}
+
+.card-subtitle {
+    font-size: 14px;
+    margin: 0;
+    margin-bottom: 8px;
+}

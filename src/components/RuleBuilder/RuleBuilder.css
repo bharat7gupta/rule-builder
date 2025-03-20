@@ -1,0 +1,10 @@
+.rule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.rule-builder {
+    min-width: 720px;
+    max-width: 1200px;
+}
