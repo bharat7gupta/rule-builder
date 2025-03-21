@@ -7,8 +7,8 @@ export interface Rule {
     options: string[];
 }
 
-export type SelectedRule = Pick<Rule, 'ruleId' | 'ruleName'> & {
-    operator: Operator;
+export type SelectedRule = Pick<Rule, 'ruleId'> & {
+    operator: RuleOperatorType;
     values: string[];
 };
 

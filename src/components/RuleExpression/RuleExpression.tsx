@@ -7,6 +7,11 @@ import RuleSelector from "./RuleSelector";
 import RuleValue from "./RuleValue";
 import BadgeGroup from "../common/Badge/BadgeGroup";
 
+const displayBadgeWhitelist = [
+    RuleOperatorType.IS_NOT,
+    RuleOperatorType.CONTAINS_ANY
+];
+
 interface RuleExpressionProps {
     rule: SelectedRule;
     onRuleDelete: () => void;
@@ -26,29 +31,34 @@ export default function RuleExpression({
 }: RuleExpressionProps) {
     const { availableRules } = useContext(RuleBuilderContext);
     const ruleDetail = availableRules.find(availableRule => availableRule.ruleId === rule.ruleId);
-    const operatorType = rule.operator.operatorType ?? ruleDetail?.operators[0].operatorType;
+    const operatorType = rule.operator ?? ruleDetail?.operators[0].operatorType;
+    const { operator, values } = rule;
 
     return (
         <div className="rule-item">
             <div className="rule-item-fields">
-                <RuleSelector onRuleChange={onRuleChange} />
+                <RuleSelector
+                    ruleId={ruleDetail?.ruleId}
+                    onRuleChange={onRuleChange}
+                />
 
                 <RuleOperator
                     rule={ruleDetail!}
-                    operatorType={operatorType}
+                    operator={operatorType}
                     onOperatorChange={onOperatorChange}
-                    onInputChange={() => {}}
                 />
 
                 <RuleValue
-                    operator={rule.operator.operatorType}
+                    operator={operator}
                     options={ruleDetail?.options}
-                    values={rule.values}
+                    values={values}
                     onChange={onRuleValueChange}
                 />
             </div>
 
-            <BadgeGroup items={rule.values} canRemove={true} onRemove={onRuleValueRemove} />
+            {displayBadgeWhitelist.includes(operator) ? (
+                <BadgeGroup items={values} canRemove={true} onRemove={onRuleValueRemove} />
+            ): null}
 
             <div className="connector"></div>
             <div className="connector-label">AND</div>

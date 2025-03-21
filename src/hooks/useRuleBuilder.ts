@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Operator, Rule, RuleID, RuleOperatorType, SelectedRule } from "../types/rule";
+import { Rule, RuleID, RuleOperatorType, SelectedRule } from "../types/rule";
 
 export default function useRuleBuilder(availableRules: Rule[]) {
     const [addedRules, setAddedRules] = useState<SelectedRule[]>([]);
@@ -13,8 +13,12 @@ export default function useRuleBuilder(availableRules: Rule[]) {
 
         setAddedRules(
             addedRules.map(
-                (rule, i) => i === index 
-                        ? { ...rule, ruleId, operator: selectedRule.operators[0], values: [] }
+                (rule, i) => i === index
+                        ?   {
+                                ruleId,
+                                operator: selectedRule.operators[0].operatorType, 
+                                values: []
+                            }
                         : rule
         ));
     };
@@ -26,14 +30,14 @@ export default function useRuleBuilder(availableRules: Rule[]) {
     };
 
     const onOperatorChange = (index: number, operatorType: RuleOperatorType) => {
-        const currentRule = addedRules[index];
-        const selectedRule = availableRules.find(rule => rule.ruleId === currentRule.ruleId) as Rule;
-        const operator = selectedRule.operators.find(op => op.operatorType === operatorType) as Operator;
-
         setAddedRules(
             addedRules.map(
                 (rule, i) => i === index
-                        ? { ...rule, operator, values: [] }
+                        ?   {
+                                ruleId: rule.ruleId,
+                                operator: operatorType,
+                                values: []
+                            }
                         : rule
             )
         );
@@ -43,7 +47,10 @@ export default function useRuleBuilder(availableRules: Rule[]) {
         setAddedRules(
             addedRules.map(
                 (rule, i) => i === index
-                        ? { ...rule, values }
+                        ?   {
+                                ...rule,
+                                values
+                            }
                         : rule
             )
         );
@@ -62,10 +69,13 @@ export default function useRuleBuilder(availableRules: Rule[]) {
         );
     };
 
+    // TODO: update selection of default rule
     const getSuitableRule = () => {
+        const rule = availableRules[0];
+
         return {
-            ...availableRules[0],
-            operator: availableRules[0].operators[0],
+            ruleId: rule.ruleId,
+            operator: availableRules[0].operators[0].operatorType,
             values: []
         };
     };

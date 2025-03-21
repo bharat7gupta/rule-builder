@@ -4,10 +4,11 @@ import Dropdown from "../common/Dropdown/Dropdown";
 import { RuleBuilderContext } from "../RuleBuilder/RuleBuilder.context";
 
 interface RuleSelectorProps {
+    ruleId: RuleID | undefined;
     onRuleChange: (ruleId: RuleID) => void;
 }
 
-export default function RuleSelector({ onRuleChange }: RuleSelectorProps) {
+export default function RuleSelector({ ruleId, onRuleChange }: RuleSelectorProps) {
     const [ruleGroups, setRuleGroups] = useState<string[]>([]);
     const { availableRules } = useContext(RuleBuilderContext);
 
@@ -28,11 +29,16 @@ export default function RuleSelector({ onRuleChange }: RuleSelectorProps) {
     };
 
     return (
-        <Dropdown onChange={handleRuleChange}>
+        <Dropdown value={ruleId as string} onChange={handleRuleChange}>
             {ruleGroups.map(ruleGroup => (
-                <optgroup label={ruleGroup}>
+                <optgroup key={ruleGroup} label={ruleGroup}>
                     {availableRules.filter(rule => rule.ruleGroup === ruleGroup).map(rule => (
-                        <option key={rule.ruleId} value={rule.ruleId}>{rule.ruleName}</option>
+                        <option
+                            key={rule.ruleId}
+                            value={rule.ruleId}
+                        >
+                            {rule.ruleName}
+                        </option>
                     ))}
                 </optgroup>
             ))}

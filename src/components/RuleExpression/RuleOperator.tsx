@@ -1,29 +1,27 @@
 import { ChangeEvent } from "react";
 import { Rule, RuleOperatorType } from "../../types/rule";
 import Dropdown from "../common/Dropdown/Dropdown";
-import TextBox from "../common/TextBox/TextBox";
 
 interface RuleOperatorProps {
     rule: Rule;
-    operatorType: RuleOperatorType;
+    operator: RuleOperatorType;
     onOperatorChange: (operatorType: RuleOperatorType) => void;
-    onInputChange: (value: string) => void;
 }
 
-export default function RuleOperator({ rule, operatorType, onOperatorChange, onInputChange }: RuleOperatorProps) {
+export default function RuleOperator({ rule, operator, onOperatorChange }: RuleOperatorProps) {
 
     const handleOperatorChange = (event: ChangeEvent<HTMLSelectElement>) => {
         onOperatorChange(event.target.value as RuleOperatorType);
     };
 
-    switch (operatorType) {
+    switch (operator) {
         case RuleOperatorType.YES_NO:
-            return <YesNoDropdown value={rule.options?.[0] ?? 'yes'} onChange={handleOperatorChange} />;
+            return null;
         case RuleOperatorType.INPUT:
-            return <TextBox value={rule.options?.[0] ?? ''} onChange={onInputChange} />;
+            return null;
         default:
             return (
-                <Dropdown onChange={handleOperatorChange}>
+                <Dropdown value={operator} onChange={handleOperatorChange}>
                     {rule.operators.map((operator) => (
                         <option
                             key={operator.operatorType}
@@ -36,20 +34,4 @@ export default function RuleOperator({ rule, operatorType, onOperatorChange, onI
             );
     }
     
-}
-
-interface YesNoDropdownProps {
-    value: string;
-    onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
-}
-
-const YesNoDropdown = ({ value, onChange }: YesNoDropdownProps) => {
-    const isYes = !value || value === 'yes';
-
-    return (
-        <Dropdown onChange={onChange}>
-            <option value="yes" selected={isYes}>Yes</option>
-            <option value="no" selected={!isYes}>No</option>
-        </Dropdown>
-    );
 }

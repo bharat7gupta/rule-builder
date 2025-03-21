@@ -46,3 +46,12 @@ hr {
 header {
   font-weight: bold;
 }
+
+.display-rules {
+  margin: 24px 0;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 12px;
+  height: 500px;
+  overflow: auto;
+}

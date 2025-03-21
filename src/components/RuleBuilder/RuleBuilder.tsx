@@ -1,17 +1,18 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import Card from "../common/Card/Card";
 import RuleExpression from "../RuleExpression/RuleExpression";
 import RuleConnector from "../RuleConnector/RuleConnector";
-import {  Rule, RuleID, RuleOperatorType } from "../../types/rule";
+import {  Rule, RuleID, RuleOperatorType, SelectedRule } from "../../types/rule";
 import { RuleBuilderContext, RuleBuilderContextType } from "./RuleBuilder.context";
 import useRuleBuilder from "../../hooks/useRuleBuilder";
 import './RuleBuilder.css';
 
 interface RuleBuilderProps {
     availableRules: Rule[];
+    onChange?: (rules: SelectedRule[]) => void;
 }
 
-export default function RuleBuilder({ availableRules }: RuleBuilderProps) {
+export default function RuleBuilder({ availableRules, onChange }: RuleBuilderProps) {
     const {
         addedRules,
         onAddClick,
@@ -21,6 +22,10 @@ export default function RuleBuilder({ availableRules }: RuleBuilderProps) {
         onRuleValueRemove,
         onRuleValueChange
     } = useRuleBuilder(availableRules);
+
+    useEffect(() => {
+        onChange?.(addedRules);
+    }, [addedRules, onChange]);
 
     const contextValue: RuleBuilderContextType = useMemo(() => ({
         availableRules,

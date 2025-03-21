@@ -1,7 +1,7 @@
 .combobox {
     width: 100%;
     min-width: 120px;
-    max-width: 360px;
+    max-width: 400px;
     position: relative;
     border: 1px solid #ddd;
     border-radius: 6px;
