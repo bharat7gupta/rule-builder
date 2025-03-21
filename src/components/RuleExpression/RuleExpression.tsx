@@ -62,12 +62,16 @@ export default function RuleExpression({
                 ): null}
             </div>
 
-            {displayBadgeWhitelist.includes(operator) ? (
+            {displayBadgeWhitelist.includes(operator) && values && values.length > 0 ? (
                 <BadgeGroup items={values} canRemove={true} onRemove={onRuleValueRemove} />
             ): null}
 
-            <div className="connector"></div>
-            <div className="connector-label">AND</div>
+            {canDelete ? (
+                <>
+                    <div className="connector"></div>
+                    <div className="connector-label" >AND</div>
+                </>
+            ): null}
         </div>
     );
 }

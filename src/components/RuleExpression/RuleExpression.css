@@ -18,29 +18,46 @@
 
 .connector {
     position: absolute;
-    top: 50%;
+    top: 20px;
     left: -44px;
-    height: calc(100% + 24px);
+    height: calc(100% + 18px);
     width: 44px;
-    border-left: 2px solid #ccc;
-    border-top: 2px solid #ccc;
-    bottom: -5px;
+    border-left: 1px solid #D9D9D9;
+    border-top: 1px solid #D9D9D9;
+    border-bottom: 1px solid #D9D9D9;
+    box-sizing: border-box;
+}
+
+.rule-item:first-child .connector {
+    top: 16px;
+    height: calc(100% + 22px);
+}
+
+.rule-item:nth-last-child(2) .connector {
+    height: calc(100% + 22px);
 }
 
 .rule-item:last-child .connector {
     border: none;
-    border-top: 2px solid #ccc;
 }
 
 .connector-label {
     position: absolute;
     left: -62px;
-    top: 50%;
+    top: calc(50% + 30px);
     background-color: #FFFFFF;
     transform: translateY(-50%);
     font-size: 14px;
     color: #555;
     padding: 4px;
+}
+
+.rule-item:first-child .connector-label {
+    top: calc(50% + 28px);
+}
+
+.rule-item:last-child .connector-label {
+    display: none;
 }
 
 .delete-button {

@@ -1,10 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Rule, RuleID, RuleOperatorType, SelectedRule } from "../types/rule";
 
 export default function useRuleBuilder(availableRules: Rule[]) {
     const [addedRules, setAddedRules] = useState<SelectedRule[]>([]);
 
     const sortRulesFn = (rule1: SelectedRule, rule2: SelectedRule) => rule1.order - rule2.order;
+
+    useEffect(() => {
+        if (!availableRules || availableRules.length === 0) {
+            return;
+        }
+
+        const firstRule = availableRules[0];
+
+        setAddedRules([{
+            order: firstRule.order,
+            ruleId: firstRule.ruleId,
+            operator: firstRule.operators[0].operatorType,
+            values: []
+        }]);
+    }, [availableRules]);
 
     const onAddClick = () => {
         const nextRule = getNextRule();
