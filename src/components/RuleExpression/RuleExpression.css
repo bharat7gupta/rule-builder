@@ -4,7 +4,6 @@
     flex-direction: column;
     position: relative;
     margin-left: 64px;
-    padding-right: 32px;
 }
 
 .rule-item-fields {
@@ -45,10 +44,18 @@
 }
 
 .delete-button {
-    position: absolute;
-    right: 12px;
+    display: block;
+    flex: 0 0 20px;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
     color: #4A4A4A;
-    transform: scale(1.5);
-    margin-left: 4px;
+    font-size: 24px;
+    line-height: 24px;
+    padding: 0 0 8px 10px;
+    border-radius: 50%;
+}
+
+.delete-button:hover {
+    background-color: #ededed;
 }

@@ -10,7 +10,11 @@ function App() {
   useEffect(() => {
     fetch('./__mocks__/rules.json')
         .then(response => response.json())
-        .then(data => setAvailableRules(data.rules));
+      .then(data => {
+        const rules: Rule[] = data.rules;
+        const sortedRules = rules.sort((rule1, rule2) => rule1.order - rule2.order);
+        setAvailableRules(sortedRules);
+      });
   }, []);
 
   const handleRulesChange = (rules: SelectedRule[]) => {

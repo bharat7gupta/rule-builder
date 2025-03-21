@@ -14,6 +14,7 @@ const displayBadgeWhitelist = [
 
 interface RuleExpressionProps {
     rule: SelectedRule;
+    canDelete?: boolean;
     onRuleDelete: () => void;
     onRuleChange: (ruleId: RuleID) => void;
     onOperatorChange: (operatorType: RuleOperatorType) => void;
@@ -23,6 +24,7 @@ interface RuleExpressionProps {
 
 export default function RuleExpression({
     rule, 
+    canDelete,
     onRuleDelete,
     onRuleChange,
     onOperatorChange,
@@ -54,6 +56,10 @@ export default function RuleExpression({
                     values={values}
                     onChange={onRuleValueChange}
                 />
+
+                {canDelete ? (
+                    <span className="delete-button" onClick={onRuleDelete}>⨯</span>
+                ): null}
             </div>
 
             {displayBadgeWhitelist.includes(operator) ? (
@@ -62,8 +68,6 @@ export default function RuleExpression({
 
             <div className="connector"></div>
             <div className="connector-label">AND</div>
-
-            <span className="delete-button" onClick={onRuleDelete}>⨯</span>
         </div>
     );
 }

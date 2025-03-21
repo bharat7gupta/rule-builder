@@ -10,7 +10,7 @@ interface RuleSelectorProps {
 
 export default function RuleSelector({ ruleId, onRuleChange }: RuleSelectorProps) {
     const [ruleGroups, setRuleGroups] = useState<string[]>([]);
-    const { availableRules } = useContext(RuleBuilderContext);
+    const { availableRules, addedRules } = useContext(RuleBuilderContext);
 
     useEffect(() => {
         const currentRuleGroups = availableRules.reduce((ruleGroups: string[], rule: Rule) => {
@@ -36,6 +36,12 @@ export default function RuleSelector({ ruleId, onRuleChange }: RuleSelectorProps
                         <option
                             key={rule.ruleId}
                             value={rule.ruleId}
+                            disabled={
+                                addedRules
+                                    .map(addedRule => addedRule.ruleId)
+                                    .filter(addedRuleId => addedRuleId !== ruleId)
+                                    .includes(rule.ruleId)
+                            }
                         >
                             {rule.ruleName}
                         </option>

@@ -49,6 +49,7 @@ export default function RuleBuilder({ availableRules, onChange }: RuleBuilderPro
                             onOperatorChange={(operatorType: RuleOperatorType) => onOperatorChange(index, operatorType)}
                             onRuleValueChange={(values: string[]) => onRuleValueChange(index, values)}
                             onRuleValueRemove={(text: string) => onRuleValueRemove(index, text)}
+                            canDelete={addedRules.length > 1}
                         />
                     ))}
                 </div>
