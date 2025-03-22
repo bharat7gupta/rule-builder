@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { RuleID, RuleOperatorType, SelectedRule } from "../../types/rule";
+import { Rule, RuleID, RuleOperatorType, SelectedRule } from "../../types/rule";
 import { RuleBuilderContext } from "../RuleBuilder/RuleBuilder.context";
 import './RuleExpression.css';
 import RuleOperator from "./RuleOperator";
@@ -45,8 +45,8 @@ export default function RuleExpression({
                 />
 
                 <RuleOperator
-                    rule={ruleDetail!}
-                    operator={operatorType}
+                    rule={ruleDetail as Rule}
+                    selectedOperator={operatorType}
                     onOperatorChange={onOperatorChange}
                 />
 

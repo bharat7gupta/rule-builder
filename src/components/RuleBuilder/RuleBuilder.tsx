@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 import Card from "../common/Card/Card";
 import RuleExpression from "../RuleExpression/RuleExpression";
-import RuleConnector from "../RuleConnector/RuleConnector";
+import RuleConnector from "../RuleLevelConnector/RuleLevelConnector";
 import {  Rule, RuleID, RuleOperatorType, SelectedRule } from "../../types/rule";
 import { RuleBuilderContext, RuleBuilderContextType } from "./RuleBuilder.context";
 import useRuleBuilder from "../../hooks/useRuleBuilder";

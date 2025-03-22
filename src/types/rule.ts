@@ -5,6 +5,7 @@ export interface Rule {
     ruleGroup: RuleGroup;
     operators: Operator[];
     options: string[];
+    mutuallyExclusiveTo: RuleID[];
 }
 
 export type SelectedRule = Pick<Rule, 'order' | 'ruleId'> & {

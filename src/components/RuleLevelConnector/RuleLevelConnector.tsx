@@ -1,5 +1,5 @@
 import Button from "../common/Button/Button";
-import './RuleConnector.css';
+import './RuleLevelConnector.css';
 
 interface RuleOperatorsProps {
     onAdd: () => void;

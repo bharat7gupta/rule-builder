@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Rule, RuleID, RuleOperatorType, SelectedRule } from "../types/rule";
+import getApplicableOperators from "../utils/operators";
 
 export default function useRuleBuilder(availableRules: Rule[]) {
     const [addedRules, setAddedRules] = useState<SelectedRule[]>([]);
@@ -99,18 +100,31 @@ export default function useRuleBuilder(availableRules: Rule[]) {
 
     const getNextRule = () => {
         // `availableRules` is already ordered
-        const rule = availableRules.find(
+        const newRule = availableRules.find(
             availableRule => !addedRules.map(r => r.ruleId).includes(availableRule.ruleId)
         );
 
-        if(!rule) {
+        if(!newRule) {
+            return null;
+        }
+
+        const applicableOperators = getApplicableOperators({
+            selectedOperator: null,
+            currentOperators: newRule.operators,
+            mutuallyExclusiveRuleIDs: newRule.mutuallyExclusiveTo,
+            addedRules: [...addedRules, {
+                ruleId: newRule.ruleId,
+            } as SelectedRule],
+        });
+
+        if (!applicableOperators || applicableOperators.length === 0) {
             return null;
         }
 
         return {
-            order: rule.order,
-            ruleId: rule.ruleId,
-            operator: rule.operators[0].operatorType,
+            order: newRule.order,
+            ruleId: newRule.ruleId,
+            operator: applicableOperators[0].operatorType,
             values: []
         };
     };

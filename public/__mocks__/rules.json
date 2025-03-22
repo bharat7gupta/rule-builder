@@ -16,9 +16,11 @@
                 }
             ],
             "options": [
-                "value1",
-                "value2"
-            ]
+                "Automated Collection",
+                "New Collection",
+                "Revamped Collection"
+            ],
+            "mutuallyExclusiveTo": ["SPECIFIC_PRODUCT"]
         },
         {
             "order": 2,
@@ -36,8 +38,13 @@
                 }
             ],
             "options": [
-                "value1",
-                "value2"
+                "Archived",
+                "Accessory",
+                "Premium",
+                "Snow",
+                "Snowboard",
+                "Sport",
+                "Winter"
             ]
         },
         {
@@ -60,9 +67,10 @@
                 }
             ],
             "options": [
-                "value1",
-                "value2"
-            ]
+                "Air Jordan",
+                "Gift Card"
+            ],
+            "mutuallyExclusiveTo": ["SPECIFIC_COLLECTION"]
         },
         {
             "order": 4,
