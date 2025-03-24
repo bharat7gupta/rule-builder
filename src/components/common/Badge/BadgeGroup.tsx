@@ -11,7 +11,7 @@ export default function BadgeGroup({ items, canRemove, onRemove }: BadgeGroupPro
     return (
         <div className="badge-group">
             {items.map(item => (
-                <Badge key={item} text={item} canRemove={canRemove} onRemove={onRemove} />
+                <Badge key={item} text={item} canRemove={canRemove} onRemove={() => onRemove?.(item)} />
             ))}
         </div>
     );

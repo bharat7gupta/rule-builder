@@ -60,7 +60,7 @@ export default function useRuleBuilder(availableRules: Rule[]) {
         if (!nextRule) return null;
 
         setAddedRules(prevAddedRules => [...prevAddedRules, nextRule].sort(sortRulesFn));
-    }, [getNextRule]);
+    }, [getNextRule, setAddedRules]);
 
     const onRuleChange = useCallback((index: number, ruleId: RuleID) => {
         const selectedRule = availableRules.find(rule => rule.ruleId === ruleId) as Rule;
@@ -78,7 +78,7 @@ export default function useRuleBuilder(availableRules: Rule[]) {
             )
             .sort(sortRulesFn)
         );
-    }, [availableRules]);
+    }, [availableRules, setAddedRules]);
 
     const onRuleDelete = useCallback((index: number) => {
         setAddedRules(prevAddedRules => {
@@ -116,21 +116,24 @@ export default function useRuleBuilder(availableRules: Rule[]) {
             )
             .sort(sortRulesFn)
         );
-    }, []);
+    }, [setAddedRules]);
 
     const onRuleValueRemove = useCallback((index: number, text: string) => {
-        const currentRule = addedRules[index];
-        const newValues = currentRule.values.filter(value => value !== text);
-
         setAddedRules(prevAddedRules =>
             prevAddedRules.map(
-                (rule, i) => i === index
-                    ? { ...rule, values: newValues }
-                    : rule
+                (rule, i) => {
+                    if (i === index) {
+                        const currentRule = prevAddedRules[index];
+                        const newValues = currentRule.values.filter(value => value !== text);
+                        return { ...rule, values: newValues };
+                    } else {
+                        return rule;
+                    }
+                }
             )
             .sort(sortRulesFn)
         );
-    }, [addedRules]);
+    }, [setAddedRules]);
 
     const returnValue = useMemo(() => ({
         addedRules,
