@@ -1,6 +1,5 @@
-import { useContext } from "react";
+import React from "react";
 import { Rule, RuleID, RuleOperatorType, SelectedRule } from "../../types/rule";
-import { RuleBuilderContext } from "../RuleBuilder/RuleBuilder.context";
 import './RuleExpression.css';
 import RuleOperator from "./RuleOperator";
 import RuleSelector from "./RuleSelector";
@@ -15,6 +14,7 @@ const displayBadgeWhitelist = [
 interface RuleExpressionProps {
     rule: SelectedRule;
     canDelete?: boolean;
+    availableRules: Rule[];
     onRuleDelete: () => void;
     onRuleChange: (ruleId: RuleID) => void;
     onOperatorChange: (operatorType: RuleOperatorType) => void;
@@ -22,16 +22,16 @@ interface RuleExpressionProps {
     onRuleValueRemove: (text: string) => void;
 }
 
-export default function RuleExpression({
-    rule, 
+function RuleExpression({
+    rule,
     canDelete,
+    availableRules,
     onRuleDelete,
     onRuleChange,
     onOperatorChange,
     onRuleValueChange,
     onRuleValueRemove
 }: RuleExpressionProps) {
-    const { availableRules } = useContext(RuleBuilderContext);
     const ruleDetail = availableRules.find(availableRule => availableRule.ruleId === rule.ruleId);
     const operatorType = rule.operator ?? ruleDetail?.operators[0].operatorType;
     const { operator, values } = rule;
@@ -69,9 +69,11 @@ export default function RuleExpression({
             {canDelete ? (
                 <>
                     <div className="connector"></div>
-                    <div className="connector-label" >AND</div>
+                    <div className="connector-label">AND</div>
                 </>
             ): null}
         </div>
     );
 }
+
+export default React.memo(RuleExpression);

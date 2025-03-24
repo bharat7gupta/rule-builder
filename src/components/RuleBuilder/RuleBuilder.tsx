@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import Card from "../common/Card/Card";
 import RuleExpression from "../RuleExpression/RuleExpression";
 import RuleConnector from "../RuleLevelConnector/RuleLevelConnector";
@@ -27,6 +27,52 @@ export default function RuleBuilder({ availableRules, onChange }: RuleBuilderPro
         onChange?.(addedRules);
     }, [addedRules, onChange]);
 
+    const ruleOperatorChangeHandlersRef = useRef<Record<number, (operatorType: RuleOperatorType) => void>>({});
+    const ruleChangeHandlersRef = useRef<Record<number, (ruleId: RuleID) => void>>({});
+    const ruleDeleteHandlersRef = useRef<Record<number, () => void>>({});
+    const ruleValueChangeHandlersRef = useRef<Record<number, (values: string[]) => void>>({});
+    const ruleValueRemoveHandlersRef = useRef<Record<number, (value: string) => void>>({});
+
+    const getRuleChangeHandler = useCallback((itemIndex: number) => {
+        if (!ruleChangeHandlersRef.current[itemIndex]) {
+            ruleChangeHandlersRef.current[itemIndex] = (ruleId: RuleID) => onRuleChange(itemIndex, ruleId);
+        }
+
+        return ruleChangeHandlersRef.current[itemIndex];
+    }, [onRuleChange]);
+
+    const getRuleDeleteHandler = useCallback((itemIndex: number) => {
+        if (!ruleDeleteHandlersRef.current[itemIndex]) {
+            ruleDeleteHandlersRef.current[itemIndex] = () => onRuleDelete(itemIndex);
+        }
+
+        return ruleDeleteHandlersRef.current[itemIndex];
+    }, [onRuleDelete]);
+
+    const getRuleOperatorChangeHandler = useCallback((itemIndex: number) => {
+        if (!ruleOperatorChangeHandlersRef.current[itemIndex]) {
+            ruleOperatorChangeHandlersRef.current[itemIndex] = (operatorType: RuleOperatorType) => onOperatorChange(itemIndex, operatorType);
+        }
+
+        return ruleOperatorChangeHandlersRef.current[itemIndex];
+    }, [onOperatorChange]);
+
+    const getRuleValueChangeHandler = useCallback((itemIndex: number) => {
+        if (!ruleValueChangeHandlersRef.current[itemIndex]) {
+            ruleValueChangeHandlersRef.current[itemIndex] = (values: string[]) => onRuleValueChange(itemIndex, values);
+        }
+
+        return ruleValueChangeHandlersRef.current[itemIndex];
+    }, [onRuleValueChange]);
+
+    const getRuleValueRemoveHandler = useCallback((itemIndex: number) => {
+        if (!ruleValueRemoveHandlersRef.current[itemIndex]) {
+            ruleValueRemoveHandlersRef.current[itemIndex] = (value: string) => onRuleValueRemove(itemIndex, value);
+        }
+
+        return ruleValueRemoveHandlersRef.current[itemIndex];
+    }, [onRuleValueRemove]);
+
     const contextValue: RuleBuilderContextType = useMemo(() => ({
         availableRules,
         addedRules
@@ -44,11 +90,12 @@ export default function RuleBuilder({ availableRules, onChange }: RuleBuilderPro
                         <RuleExpression
                             key={rule.ruleId}
                             rule={rule}
-                            onRuleChange={(ruleId: RuleID) => onRuleChange(index, ruleId)}
-                            onRuleDelete={() => onRuleDelete(index)}
-                            onOperatorChange={(operatorType: RuleOperatorType) => onOperatorChange(index, operatorType)}
-                            onRuleValueChange={(values: string[]) => onRuleValueChange(index, values)}
-                            onRuleValueRemove={(text: string) => onRuleValueRemove(index, text)}
+                            availableRules={availableRules}
+                            onRuleChange={getRuleChangeHandler(index)}
+                            onRuleDelete={getRuleDeleteHandler(index)}
+                            onOperatorChange={getRuleOperatorChangeHandler(index)}
+                            onRuleValueChange={getRuleValueChangeHandler(index)}
+                            onRuleValueRemove={getRuleValueRemoveHandler(index)}
                             canDelete={addedRules.length > 1}
                         />
                     ))}

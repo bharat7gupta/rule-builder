@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { Rule, RuleID, RuleOperatorType, SelectedRule } from "../types/rule";
 import getApplicableOperators from "../utils/operators";
 
@@ -22,19 +22,51 @@ export default function useRuleBuilder(availableRules: Rule[]) {
         }]);
     }, [availableRules]);
 
-    const onAddClick = () => {
+    const getNextRule = useCallback(() => {
+        // `availableRules` is already ordered
+        const newRule = availableRules.find(
+            availableRule => !addedRules.map(r => r.ruleId).includes(availableRule.ruleId)
+        );
+
+        if(!newRule) {
+            return null;
+        }
+
+        let applicableOperators = getApplicableOperators({
+            selectedOperator: null,
+            currentOperators: newRule.operators,
+            mutuallyExclusiveRuleIDs: newRule.mutuallyExclusiveTo,
+            addedRules: [...addedRules, {
+                ruleId: newRule.ruleId,
+            } as SelectedRule],
+        });
+
+        // if no rules to filter out, set applicableOperators to all operators
+        if (!applicableOperators || applicableOperators.length === 0) {
+            applicableOperators = newRule.operators;
+        } 
+
+        return {
+            order: newRule.order,
+            ruleId: newRule.ruleId,
+            operator: applicableOperators[0].operatorType,
+            values: []
+        };
+    }, [availableRules, addedRules]);
+
+    const onAddClick = useCallback(() => {
         const nextRule = getNextRule();
 
         if (!nextRule) return null;
 
-        setAddedRules([...addedRules, nextRule].sort(sortRulesFn));
-    };
+        setAddedRules(prevAddedRules => [...prevAddedRules, nextRule].sort(sortRulesFn));
+    }, [getNextRule]);
 
-    const onRuleChange = (index: number, ruleId: RuleID) => {
+    const onRuleChange = useCallback((index: number, ruleId: RuleID) => {
         const selectedRule = availableRules.find(rule => rule.ruleId === ruleId) as Rule;
 
-        setAddedRules(
-            addedRules.map(
+        setAddedRules(prevAddedRules => 
+            prevAddedRules.map(
                 (rule, i) => i === index
                     ? {
                         order: selectedRule.order,
@@ -46,17 +78,19 @@ export default function useRuleBuilder(availableRules: Rule[]) {
             )
             .sort(sortRulesFn)
         );
-    };
+    }, [availableRules]);
 
-    const onRuleDelete = (index: number) => {
-        const newRules = [...addedRules];
-        newRules.splice(index, 1);
-        setAddedRules(newRules);
-    };
+    const onRuleDelete = useCallback((index: number) => {
+        setAddedRules(prevAddedRules => {
+            const newRules = [...prevAddedRules];
+            newRules.splice(index, 1);
+            return newRules;
+        });
+    }, []);
 
-    const onOperatorChange = (index: number, operatorType: RuleOperatorType) => {
-        setAddedRules(
-            addedRules.map(
+    const onOperatorChange = useCallback((index: number, operatorType: RuleOperatorType) => {
+        setAddedRules(prevAddedRules =>
+            prevAddedRules.map(
                 (rule, i) => i === index
                     ? {
                         order: rule.order,
@@ -68,11 +102,11 @@ export default function useRuleBuilder(availableRules: Rule[]) {
             )
             .sort(sortRulesFn)
         );
-    }
+    }, [setAddedRules]);
 
-    const onRuleValueChange = (index: number, values: string[]) => {
-        setAddedRules(
-            addedRules.map(
+    const onRuleValueChange = useCallback((index: number, values: string[]) => {
+        setAddedRules(prevAddedRules =>
+            prevAddedRules.map(
                 (rule, i) => i === index
                     ? {
                         ...rule,
@@ -82,54 +116,23 @@ export default function useRuleBuilder(availableRules: Rule[]) {
             )
             .sort(sortRulesFn)
         );
-    };
+    }, []);
 
-    const onRuleValueRemove = (index: number, text: string) => {
+    const onRuleValueRemove = useCallback((index: number, text: string) => {
         const currentRule = addedRules[index];
         const newValues = currentRule.values.filter(value => value !== text);
 
-        setAddedRules(
-            addedRules.map(
+        setAddedRules(prevAddedRules =>
+            prevAddedRules.map(
                 (rule, i) => i === index
                     ? { ...rule, values: newValues }
                     : rule
             )
             .sort(sortRulesFn)
         );
-    };
+    }, [addedRules]);
 
-    const getNextRule = () => {
-        // `availableRules` is already ordered
-        const newRule = availableRules.find(
-            availableRule => !addedRules.map(r => r.ruleId).includes(availableRule.ruleId)
-        );
-
-        if(!newRule) {
-            return null;
-        }
-
-        const applicableOperators = getApplicableOperators({
-            selectedOperator: null,
-            currentOperators: newRule.operators,
-            mutuallyExclusiveRuleIDs: newRule.mutuallyExclusiveTo,
-            addedRules: [...addedRules, {
-                ruleId: newRule.ruleId,
-            } as SelectedRule],
-        });
-
-        if (!applicableOperators || applicableOperators.length === 0) {
-            return null;
-        }
-
-        return {
-            order: newRule.order,
-            ruleId: newRule.ruleId,
-            operator: applicableOperators[0].operatorType,
-            values: []
-        };
-    };
-
-    return {
+    const returnValue = useMemo(() => ({
         addedRules,
         onAddClick,
         onRuleChange,
@@ -137,5 +140,15 @@ export default function useRuleBuilder(availableRules: Rule[]) {
         onOperatorChange,
         onRuleValueChange,
         onRuleValueRemove
-    };
+    }), [
+        addedRules,
+        onAddClick,
+        onRuleChange,
+        onRuleDelete,
+        onOperatorChange,
+        onRuleValueChange,
+        onRuleValueRemove
+    ]);
+
+    return returnValue;
 }

@@ -24,6 +24,8 @@ function App() {
   return (
     <div>
       <RuleBuilder availableRules={availableRules} onChange={handleRulesChange}/>
+
+      {/* for demonstration purposes */}
       <div className="display-rules">
         <pre>{JSON.stringify(rules, null, 4)}</pre>
       </div>

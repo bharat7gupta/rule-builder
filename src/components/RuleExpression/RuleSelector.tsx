@@ -28,6 +28,8 @@ export default function RuleSelector({ ruleId, onRuleChange }: RuleSelectorProps
         onRuleChange(event.target.value as RuleID);
     };
 
+    const addedRuleIds = addedRules.map(addedRule => addedRule.ruleId);
+
     return (
         <Dropdown value={ruleId as string} onChange={handleRuleChange}>
             {ruleGroups.map(ruleGroup => (
@@ -37,8 +39,7 @@ export default function RuleSelector({ ruleId, onRuleChange }: RuleSelectorProps
                             key={rule.ruleId}
                             value={rule.ruleId}
                             disabled={
-                                addedRules
-                                    .map(addedRule => addedRule.ruleId)
+                                addedRuleIds
                                     .filter(addedRuleId => addedRuleId !== ruleId)
                                     .includes(rule.ruleId)
                             }
